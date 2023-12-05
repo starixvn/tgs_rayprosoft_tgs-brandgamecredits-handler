@@ -42,7 +42,6 @@ deploy-dev:
     name: service-dev
   stage: deploy-dev
   needs:
-    - push-nuget
     - push-docker-image
     - job: push-k8s-template
       artifacts: true
