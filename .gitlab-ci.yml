@@ -7,7 +7,7 @@ variables:
   ImageName: pgtgs/brand-gamecredits-handler
   TgsSettingKey: brand-gamecredits-handler
   HelmTemplateFolderName: brand-gamecredits-handler
-  BuildCacheKey: Tgs.Bo-Api.$CI_PIPELINE_IID
+  BuildCacheKey: Tgs.BrandGameCredits.Handler.$CI_PIPELINE_IID
 
 stages:
   - build
