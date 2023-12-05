@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandGameCredits.Handler", "Tgs.BrandGameCredits.Handler\Tgs.BrandGameCredits.Handler.csproj", "{D18881D2-29CF-419F-9E04-06C537F2311A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandGameCredits.Handler.Core", "Tgs.BrandGameCredits.Handler.Core\Tgs.BrandGameCredits.Handler.Core.csproj", "{6C1981DE-6D39-4D37-8289-65D5C4835D09}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandGameCredits.Handler.Repositories", "Tgs.BrandGameCredits.Handler.Repositories\Tgs.BrandGameCredits.Handler.Repositories.csproj", "{289E00C4-5F93-43E0-8109-2CD375DBCC9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandGameCredits.Handler.Common", "Tgs.BrandGameCredits.Handler.Common\Tgs.BrandGameCredits.Handler.Common.csproj", "{E8C2658E-82F3-464A-950E-DD8B1ED9630C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.BrandGameCredits.Handler.Core.UnitTest", "Tgs.BrandGameCredits.Handler.Core.UnitTest\Tgs.BrandGameCredits.Handler.Core.UnitTest.csproj", "{5B545D7F-2052-46DD-A9D1-7070A8828D74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D18881D2-29CF-419F-9E04-06C537F2311A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D18881D2-29CF-419F-9E04-06C537F2311A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D18881D2-29CF-419F-9E04-06C537F2311A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D18881D2-29CF-419F-9E04-06C537F2311A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C1981DE-6D39-4D37-8289-65D5C4835D09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C1981DE-6D39-4D37-8289-65D5C4835D09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C1981DE-6D39-4D37-8289-65D5C4835D09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C1981DE-6D39-4D37-8289-65D5C4835D09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{289E00C4-5F93-43E0-8109-2CD375DBCC9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{289E00C4-5F93-43E0-8109-2CD375DBCC9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{289E00C4-5F93-43E0-8109-2CD375DBCC9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{289E00C4-5F93-43E0-8109-2CD375DBCC9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C2658E-82F3-464A-950E-DD8B1ED9630C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C2658E-82F3-464A-950E-DD8B1ED9630C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C2658E-82F3-464A-950E-DD8B1ED9630C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C2658E-82F3-464A-950E-DD8B1ED9630C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B545D7F-2052-46DD-A9D1-7070A8828D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B545D7F-2052-46DD-A9D1-7070A8828D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B545D7F-2052-46DD-A9D1-7070A8828D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B545D7F-2052-46DD-A9D1-7070A8828D74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC61CA1E-CF9E-48FE-A55D-0A2A3E9AFF90}
+	EndGlobalSection
+EndGlobal

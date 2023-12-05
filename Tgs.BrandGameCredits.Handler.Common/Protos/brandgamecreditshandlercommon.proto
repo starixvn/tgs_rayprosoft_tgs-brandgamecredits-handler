@@ -1,0 +1,25 @@
+﻿syntax = "proto3";
+
+import "phoenix/protobuf/guid.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Tgs.BrandGameCredits.Handler.Common.Protos";
+
+package brandgamecreditshandlercommon;
+
+message BrandGameCreditPublish {
+    // 總公司識別碼
+    phoenix.protobuf.GuidValue reseller_id = 1;
+    // 總公司代碼
+    string reseller_code = 2;
+    // 公司識別碼
+    phoenix.protobuf.GuidValue licensee_id = 3;
+    // 公司代碼
+    string licensee_code = 4;
+    // 平台識別碼
+    phoenix.protobuf.GuidValue brand_id = 5;
+    // 平台代碼
+    string brand_code = 6;
+    // 月份
+    google.protobuf.Timestamp month = 7;
+}
