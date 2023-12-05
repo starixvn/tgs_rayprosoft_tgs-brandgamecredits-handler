@@ -26,12 +26,12 @@ unit-test:
 push-docker-image:
   extends: .push-docker-image-template
   script:
-    - push_docker "Tgs.BrandGameCredits.Handler" $ServiceImageName $Tag
+    - push_docker "Tgs.BrandGameCredits.Handler" $ImageName $Tag
 
 push-k8s-template:
   extends: .push-k8s-template
   script:
-    - push_k8s_template $HelmTemplateFolderName $ServiceImageName $Tag
+    - push_k8s_template $HelmTemplateFolderName $ImageName $Tag
 
 deploy-dev:
   extends: .deploy-template
