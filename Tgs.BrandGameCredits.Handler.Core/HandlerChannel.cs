@@ -1,15 +1,16 @@
 ﻿using System.Threading.Channels;
+using Microsoft.Extensions.DependencyInjection;
+
 using Microsoft.Extensions.Logging;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 using Tgs.ServiceUtility;
-using Tgs.BrandGameCredits.Handler.Core;
 
 namespace Tgs.BrandGameCredits.Handler.Core;
 
 internal class HandlerChannel(
     string key,
     ILogger<HandlerChannel> logger,
-    ICommandService<DispatcherCommand> service) : IDisposable
+    IServiceProvider serviceProvider) : IDisposable
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
@@ -128,9 +129,11 @@ internal class HandlerChannel(
                 {
                     logger.LogDebug("LogOn:{logOn} Key:{key} Command:{command}", DateTime.Now.ToString("o"), Key, command);
 
+                    await using var scope = serviceProvider.CreateAsyncScope();
+                    var service = scope.ServiceProvider.GetRequiredService<ICommandService<DispatcherCommand>>();
                     await service.ExecuteAsync(
-                         command: command,
-                         cancellationToken: cancellationToken)
+                        command: command,
+                        cancellationToken: cancellationToken)
                         .ConfigureAwait(false);
                 }
                 catch (Exception ex)

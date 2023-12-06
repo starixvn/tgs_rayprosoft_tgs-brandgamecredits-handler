@@ -17,7 +17,7 @@ internal class BrandGameCreditRepository(TgsContext context) : IBrandGameCreditR
             Month = month
         };
 
-        _ = await context.AddAsync(
+        _ = await context.BrandGameCredits.AddAsync(
             entity: entity,
             cancellationToken: cancellationToken)
             .ConfigureAwait(false);
@@ -28,7 +28,7 @@ internal class BrandGameCreditRepository(TgsContext context) : IBrandGameCreditR
     }
 
     public async ValueTask<BrandGameCreditInfo?> GetAsync(Guid brandId, DateOnly month, CancellationToken cancellationToken = default)
-        => await context.BrandGameCredits
+        => await context.BrandGameCredits.AsQueryable()
         .Where(predicate => predicate.Month == month && predicate.BrandId == brandId)
         .Select(selector => new BrandGameCreditInfo(
             selector.ResellerId,
