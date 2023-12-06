@@ -10,4 +10,4 @@ public record PublishCommand(
     string LicenseeCode,
     Guid BrandId,
     string BrandCode,
-    DateTimeOffset Month);
+    DateTimeOffset CurrentTime);

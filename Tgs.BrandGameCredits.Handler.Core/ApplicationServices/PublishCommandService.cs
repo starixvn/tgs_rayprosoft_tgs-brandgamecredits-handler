@@ -21,7 +21,7 @@ internal class PublishCommandService(
             LicenseeCode = command.LicenseeCode,
             BrandId = command.BrandId,
             BrandCode = command.BrandCode,
-            Month = command.Month.ToTimestamp()
+            CurrentTime = command.CurrentTime.ToTimestamp()
         };
 
         logger.LogInformation("LogOn:{logOn} Subject:{subject} Message:The content of this publish.({publish})",

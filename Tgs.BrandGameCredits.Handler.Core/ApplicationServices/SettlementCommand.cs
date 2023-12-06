@@ -1,9 +1,10 @@
 ﻿namespace Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 
-public record MonthCommand(
+public record SettlementCommand(
     Guid ResellerId,
     string ResellerCode,
     Guid LicenseeId,
     string LicenseeCode,
     Guid BrandId,
-    string BrandCode);
+    string BrandCode,
+    DateTimeOffset CurrentTime);

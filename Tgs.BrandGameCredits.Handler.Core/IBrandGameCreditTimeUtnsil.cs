@@ -2,6 +2,7 @@
 
 public interface IBrandGameCreditTimeUtnsil
 {
-    DateTimeOffset GetTimeZone(DateTimeOffset currentTime, int timeSpanMinutes = 480);
-    DateOnly GetDateOnly(DateTimeOffset currentTime, int timeSpanMinutes = 480);
+    DateTimeOffset Get1stOfEveryMonthTimeZone(DateTimeOffset currentTime, int timeSpanMinutes = 480);
+
+    DateOnly Get1stOfEveryMonthDateOnly(DateTimeOffset currentTime, int timeSpanMinutes = 480);
 }

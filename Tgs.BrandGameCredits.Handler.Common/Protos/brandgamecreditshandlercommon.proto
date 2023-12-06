@@ -20,6 +20,6 @@ message BrandGameCreditPublish {
     phoenix.protobuf.GuidValue brand_id = 5;
     // 平台代碼
     string brand_code = 6;
-    // 月份
-    google.protobuf.Timestamp month = 7;
+    // 當前時間
+    google.protobuf.Timestamp current_time = 7;
 }

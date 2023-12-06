@@ -1,13 +1,14 @@
-﻿using Tgs.BrandGameCredits.Handler.Common.Protos;
+﻿using Tgs.BrandGameCredits.Handler.Common;
+using Tgs.BrandGameCredits.Handler.Common.Protos;
+using Tgs.BrandGameCredits.Handler.Core;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
-using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
 
 namespace Tgs.BrandGameCredits.Handler.Messages;
 
 public class CreditMessageHandler(
     ILogger<CreditMessageHandler> logger,
-    ICommandService<CreditCommand> service) : IMessageHandler
+    IHandlerDispatcher dispatcher) : IMessageHandler
 {
     public ValueTask HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
     {
@@ -16,15 +17,16 @@ public class CreditMessageHandler(
 
         logger.LogInformation("LogOn:{logOn} Information publish:{publish}", DateTime.Now.ToString("o"), publish);
 
-        return service.ExecuteAsync(
-            command: new CreditCommand(
+        return dispatcher.PushCommandAsync(
+            command: new DispatcherCommand(
                 ResellerId: publish.ResellerId.ToGuid(),
                 ResellerCode: publish.ResellerCode,
                 LicenseeId: publish.LicenseeId.ToGuid(),
                 LicenseeCode: publish.LicenseeCode,
                 BrandId: publish.BrandId.ToGuid(),
                 BrandCode: publish.BrandCode,
-                Month: publish.Month.ToDateTimeOffset()),
+                CurrentTime: publish.CurrentTime.ToDateTimeOffset(),
+                DispatcherType: DispatcherType.Credit),
             cancellationToken: cancellationToken);
     }
 }

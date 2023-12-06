@@ -20,6 +20,10 @@
   "T4TemplatePath": null,
   "Tables": [
     {
+      "Name": "dbo.brand_game_credit_txns",
+      "ObjectType": 0
+    },
+    {
       "Name": "dbo.brand_game_credits",
       "ObjectType": 0
     },

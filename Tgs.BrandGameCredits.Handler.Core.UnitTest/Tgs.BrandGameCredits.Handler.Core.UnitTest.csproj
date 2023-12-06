@@ -30,7 +30,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ApplicationServices\" />
+	  <EditorConfigFiles Remove="D:\00.Git\tgs-brandgamecredits-handler\Tgs.BrandGameCredits.Handler.Core.UnitTest\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="D:\00.Git\tgs-brandgamecredits-handler\Tgs.BrandGameCredits.Handler.Core.UnitTest\.editorconfig" />
 	</ItemGroup>
 
 </Project>

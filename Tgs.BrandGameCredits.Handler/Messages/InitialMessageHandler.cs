@@ -24,7 +24,7 @@ public class InitialMessageHandler(
                 LicenseeCode: publish.LicenseeCode,
                 BrandId: publish.BrandId.ToGuid(),
                 BrandCode: publish.BrandCode,
-                Month: publish.Month.ToDateTimeOffset()),
+                CurrentTime: publish.CurrentTime.ToDateTimeOffset()),
             cancellationToken: cancellationToken);
     }
 }

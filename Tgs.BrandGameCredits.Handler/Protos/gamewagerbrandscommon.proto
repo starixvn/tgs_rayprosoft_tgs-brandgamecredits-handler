@@ -2,7 +2,7 @@
 
 import "phoenix/protobuf/guid.proto";
 
-option csharp_namespace = "Tgs.BrandGameCredits.Handler.Common.Protos";
+option csharp_namespace = "Tgs.BrandGameCredits.Handler.Protos";
 
 package gamewagerbrandscommon;
 

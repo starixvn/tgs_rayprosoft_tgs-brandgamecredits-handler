@@ -8,7 +8,6 @@
 
 	<ItemGroup>
 	  <None Remove="Protos\brandgamecreditshandlercommon.proto" />
-	  <None Remove="Protos\gamewagerbrandscommon.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -18,7 +17,6 @@
 
 	<ItemGroup>
 	  <Protobuf Include="Protos\brandgamecreditshandlercommon.proto" GrpcServices="None" />
-	  <Protobuf Include="Protos\gamewagerbrandscommon.proto" GrpcServices="None" />
 	</ItemGroup>
 
 </Project>

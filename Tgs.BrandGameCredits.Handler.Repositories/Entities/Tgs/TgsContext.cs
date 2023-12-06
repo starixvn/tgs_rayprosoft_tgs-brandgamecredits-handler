@@ -16,6 +16,8 @@ public partial class TgsContext : DbContext
 
     public virtual DbSet<BrandGameCredit> BrandGameCredits { get; set; }
 
+    public virtual DbSet<BrandGameCreditTxn> BrandGameCreditTxns { get; set; }
+
     public virtual DbSet<GameWagerStatDailyClose> GameWagerStatDailyCloses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,6 +30,7 @@ public partial class TgsContext : DbContext
             .HasPostgresExtension("uuid-ossp");
 
         modelBuilder.ApplyConfiguration(new Configurations.BrandGameCreditConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.BrandGameCreditTxnConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.GameWagerStatDailyCloseConfiguration());
         OnModelCreatingPartial(modelBuilder);
     }

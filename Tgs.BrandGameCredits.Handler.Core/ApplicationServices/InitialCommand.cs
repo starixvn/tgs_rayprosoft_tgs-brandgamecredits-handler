@@ -7,4 +7,4 @@ public record InitialCommand(
     string LicenseeCode,
     Guid BrandId,
     string BrandCode,
-    DateTimeOffset Month);
+    DateTimeOffset CurrentTime);

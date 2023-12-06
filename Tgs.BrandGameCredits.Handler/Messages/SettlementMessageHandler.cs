@@ -1,29 +1,32 @@
-﻿using Tgs.BrandGameCredits.Handler.Common.Protos;
+﻿using Tgs.BrandGameCredits.Handler.Common;
+using Tgs.BrandGameCredits.Handler.Common.Protos;
+using Tgs.BrandGameCredits.Handler.Core;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
-using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
 
 namespace Tgs.BrandGameCredits.Handler.Messages;
 
-public class MonthMessageHandler(
-    ILogger<MonthMessageHandler> logger,
-    ICommandService<MonthCommand> service) : IMessageHandler
+public class SettlementMessageHandler(
+    ILogger<SettlementMessageHandler> logger,
+    IHandlerDispatcher dispatcher) : IMessageHandler
 {
     public ValueTask HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
     {
-        var publish = StatisticalFinishPublish.Parser.ParseFrom(data.Span)
+        var publish = BrandGameCreditPublish.Parser.ParseFrom(data.Span)
             ?? throw new NullReferenceException("The request data resolves to a null value");
 
         logger.LogInformation("LogOn:{logOn} Information publish:{publish}", DateTime.Now.ToString("o"), publish);
 
-        return service.ExecuteAsync(
-            command: new MonthCommand(
+        return dispatcher.PushCommandAsync(
+            command: new DispatcherCommand(
                 ResellerId: publish.ResellerId.ToGuid(),
                 ResellerCode: publish.ResellerCode,
                 LicenseeId: publish.LicenseeId.ToGuid(),
                 LicenseeCode: publish.LicenseeCode,
                 BrandId: publish.BrandId.ToGuid(),
-                BrandCode: publish.BrandCode),
+                BrandCode: publish.BrandCode,
+                CurrentTime: publish.CurrentTime.ToDateTimeOffset(),
+                DispatcherType: DispatcherType.Settlement),
             cancellationToken: cancellationToken);
     }
 }

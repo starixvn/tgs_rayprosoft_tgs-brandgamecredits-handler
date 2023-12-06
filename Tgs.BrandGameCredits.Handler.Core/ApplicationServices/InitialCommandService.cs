@@ -1,57 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tgs.BrandGameCredits.Handler.Common;
+﻿using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.ServiceUtility;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 
 internal class InitialCommandService(
     IBrandGameCreditTimeUtnsil timeUtnsil,
     IBrandGameCreditRepository brandGameCreditRepository,
-    ICommandService<PublishCommand> service) : ICommandService<InitialCommand>
+    ICommandService<InitialPublishCommand> initialPublishService) : ICommandService<InitialCommand>
 {
     public async ValueTask ExecuteAsync(InitialCommand command, CancellationToken cancellationToken = default)
     {
-        var month = timeUtnsil.GetDateOnly(command.Month, 480);
+        var monthTimeZone = timeUtnsil.Get1stOfEveryMonthTimeZone(command.CurrentTime, 480);
+        var monthDateOnly = timeUtnsil.Get1stOfEveryMonthDateOnly(monthTimeZone, 480);
 
-        var brandGameCredit = await brandGameCreditRepository.GetAsync(
+        var lastMonthBrandGameCredit = await brandGameCreditRepository.GetAsync(
             brandId: command.BrandId,
-            month: month.AddMonths(-1),
+            month: monthDateOnly.AddMonths(-1),
             cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         var amount = 0.0m;
 
-        if (brandGameCredit != null)
+        if (lastMonthBrandGameCredit != null)
         {
-            var credit = brandGameCredit.InitialAmount + brandGameCredit.CreditAmount - brandGameCredit.DebitAmount;
-            amount = credit + brandGameCredit.ProfitAmount;
+            var credit = lastMonthBrandGameCredit.InitialAmount + lastMonthBrandGameCredit.CreditAmount - lastMonthBrandGameCredit.DebitAmount;
+            amount = credit + lastMonthBrandGameCredit.ProfitAmount;
             if (amount > credit)
             {
                 amount = credit;
             }
         }
+
         await brandGameCreditRepository.UpdateInitialAsync(
             brandId: command.BrandId,
-            month: month,
+            month: monthDateOnly,
             amount: amount,
             cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
-        await service.ExecuteAsync(
-            command: new PublishCommand(
-                Subject: BrandGameCreditsHandlerNatsConst.Credit,
+        await initialPublishService.ExecuteAsync(
+            command: new InitialPublishCommand(
                 ResellerId: command.ResellerId,
                 ResellerCode: command.ResellerCode,
                 LicenseeId: command.LicenseeId,
                 LicenseeCode: command.LicenseeCode,
                 BrandId: command.BrandId,
                 BrandCode: command.BrandCode,
-                Month: command.Month),
+                CurrentTime: command.CurrentTime),
             cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }

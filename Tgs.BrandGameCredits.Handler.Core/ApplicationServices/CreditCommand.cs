@@ -7,4 +7,4 @@ public record CreditCommand(
     string LicenseeCode,
     Guid BrandId,
     string BrandCode,
-    DateTimeOffset Month);
+    DateTimeOffset CurrentTime);

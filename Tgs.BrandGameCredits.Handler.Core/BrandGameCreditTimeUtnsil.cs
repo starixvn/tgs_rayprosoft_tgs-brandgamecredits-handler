@@ -5,14 +5,14 @@ namespace Tgs.BrandGameCredits.Handler.Core;
 
 internal class BrandGameCreditTimeUtnsil : IBrandGameCreditTimeUtnsil
 {
-    public DateOnly GetDateOnly(DateTimeOffset currentTime, int timeSpanMinutes = 480)
+    public DateOnly Get1stOfEveryMonthDateOnly(DateTimeOffset currentTime, int timeSpanMinutes = 480)
     {
         var timeSpan = TimeSpan.FromMinutes(timeSpanMinutes);
         var currentTimeOffset = currentTime.ToOffset(timeSpan);
         return DateOnly.FromDateTime(new DateTimeOffset(currentTimeOffset.Year, currentTimeOffset.Month, 1, 0, 0, 0, timeSpan).Date);
     }
 
-    public DateTimeOffset GetTimeZone(DateTimeOffset currentTime, int timeSpanMinutes = 480)
+    public DateTimeOffset Get1stOfEveryMonthTimeZone(DateTimeOffset currentTime, int timeSpanMinutes = 480)
     {
         var timeSpan = TimeSpan.FromMinutes(timeSpanMinutes);
         var currentTimeOffset = currentTime.ToOffset(timeSpan);

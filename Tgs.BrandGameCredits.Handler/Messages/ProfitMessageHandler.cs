@@ -1,13 +1,14 @@
-﻿using Tgs.BrandGameCredits.Handler.Common.Protos;
+﻿using Tgs.BrandGameCredits.Handler.Common;
+using Tgs.BrandGameCredits.Handler.Common.Protos;
+using Tgs.BrandGameCredits.Handler.Core;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
-using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
 
 namespace Tgs.BrandGameCredits.Handler.Messages;
 
 public class ProfitMessageHandler(
     ILogger<ProfitMessageHandler> logger,
-    ICommandService<ProfitCommand> service) : IMessageHandler
+    IHandlerDispatcher dispatcher) : IMessageHandler
 {
     public ValueTask HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
     {
@@ -16,15 +17,16 @@ public class ProfitMessageHandler(
 
         logger.LogInformation("LogOn:{logOn} Information publish:{publish}", DateTime.Now.ToString("o"), publish);
 
-        return service.ExecuteAsync(
-            command: new ProfitCommand(
+        return dispatcher.PushCommandAsync(
+            command: new DispatcherCommand(
                 ResellerId: publish.ResellerId.ToGuid(),
                 ResellerCode: publish.ResellerCode,
                 LicenseeId: publish.LicenseeId.ToGuid(),
                 LicenseeCode: publish.LicenseeCode,
                 BrandId: publish.BrandId.ToGuid(),
                 BrandCode: publish.BrandCode,
-                Month: publish.Month.ToDateTimeOffset()),
+                CurrentTime: publish.CurrentTime.ToDateTimeOffset(),
+                DispatcherType: DispatcherType.Profit),
             cancellationToken: cancellationToken);
     }
 }
