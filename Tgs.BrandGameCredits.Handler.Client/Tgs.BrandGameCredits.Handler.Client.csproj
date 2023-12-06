@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<Version>0.0.1</Version>
+		<Authors>Raypro</Authors>
+		<RootNamespace>Tgs.BrandGameCredits.Handler.Client</RootNamespace>
+		<PackageId>Tgs.BrandGameCredits.Handler.Client</PackageId>
+		<Title>Tgs.BrandGameCredits.Handler.Client</Title>
+		<PackageProjectUrl>https://gitlab.com/rayprosoft/tgs-brandgamecredits-handler</PackageProjectUrl>
+		<RepositoryUrl>https://gitlab.com/rayprosoft/tgs-brandgamecredits-handler.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Tgs BrandGameCredits Handler Client</PackageTags>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PhoenixToolkits.NuGet.BuildTools" Version="0.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tgs.BrandGameCredits.Handler.Common\Tgs.BrandGameCredits.Handler.Common.csproj">
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

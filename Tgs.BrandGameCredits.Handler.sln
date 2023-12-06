@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandGameCredits.Handle
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandGameCredits.Handler.Common", "Tgs.BrandGameCredits.Handler.Common\Tgs.BrandGameCredits.Handler.Common.csproj", "{E8C2658E-82F3-464A-950E-DD8B1ED9630C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.BrandGameCredits.Handler.Core.UnitTest", "Tgs.BrandGameCredits.Handler.Core.UnitTest\Tgs.BrandGameCredits.Handler.Core.UnitTest.csproj", "{5B545D7F-2052-46DD-A9D1-7070A8828D74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.BrandGameCredits.Handler.Core.UnitTest", "Tgs.BrandGameCredits.Handler.Core.UnitTest\Tgs.BrandGameCredits.Handler.Core.UnitTest.csproj", "{5B545D7F-2052-46DD-A9D1-7070A8828D74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.BrandGameCredits.Handler.Client", "Tgs.BrandGameCredits.Handler.Client\Tgs.BrandGameCredits.Handler.Client.csproj", "{653C3244-A5F9-4B41-A569-19A7EC65BA3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{5B545D7F-2052-46DD-A9D1-7070A8828D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B545D7F-2052-46DD-A9D1-7070A8828D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B545D7F-2052-46DD-A9D1-7070A8828D74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653C3244-A5F9-4B41-A569-19A7EC65BA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653C3244-A5F9-4B41-A569-19A7EC65BA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653C3244-A5F9-4B41-A569-19A7EC65BA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653C3244-A5F9-4B41-A569-19A7EC65BA3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
