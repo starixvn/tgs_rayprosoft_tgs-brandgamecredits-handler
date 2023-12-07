@@ -63,7 +63,7 @@ builder.Services
         var configuration = sp.GetRequiredService<IConfiguration>();
         options.Url = configuration.GetConnectionString("Nats")!;
     })
-    .AddHandler<StatCloseMessageHandler>("game.gamewager.brand.stat.close.publish", BrandGameCreditsHandlerNatsConst.StatClose)
+    .AddHandler<StatCloseMessageHandler>("game.gamewager.brand.stat.finish.publish", BrandGameCreditsHandlerNatsConst.StatClose)
     .AddHandler<CreateMessageHandler>(BrandGameCreditsHandlerNatsConst.Create, BrandGameCreditsHandlerNatsConst.Create)
     .AddHandler<InitialMessageHandler>(BrandGameCreditsHandlerNatsConst.Initial, BrandGameCreditsHandlerNatsConst.Initial)
     .AddHandler<CreditMessageHandler>(BrandGameCreditsHandlerNatsConst.Credit, BrandGameCreditsHandlerNatsConst.Credit)
@@ -71,7 +71,7 @@ builder.Services
     .AddHandler<ProfitMessageHandler>(BrandGameCreditsHandlerNatsConst.Profit, BrandGameCreditsHandlerNatsConst.Profit)
     .AddHandler<SettlementMessageHandler>(BrandGameCreditsHandlerNatsConst.Settlement, BrandGameCreditsHandlerNatsConst.Settlement))
     .ClearAllExchanges()
-    .AddNatsGlobPatternExchange("game.gamewager.brand.stat.close.publish")
+    .AddNatsGlobPatternExchange("game.gamewager.brand.stat.finish.publish")
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Create)
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Initial)
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Credit)
