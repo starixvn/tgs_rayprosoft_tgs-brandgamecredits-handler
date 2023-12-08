@@ -5,6 +5,7 @@ namespace Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 
 internal class InitialCommandService(
     IBrandGameCreditTimeUtnsil timeUtnsil,
+    IBrandGameCreditComputingUtnsil computingUtnsil,
     IBrandGameCreditRepository brandGameCreditRepository,
     ICommandService<InitialPublishCommand> initialPublishService) : ICommandService<InitialCommand>
 {
@@ -23,12 +24,8 @@ internal class InitialCommandService(
 
         if (lastMonthBrandGameCredit != null)
         {
-            var credit = lastMonthBrandGameCredit.InitialAmount + lastMonthBrandGameCredit.CreditAmount - lastMonthBrandGameCredit.DebitAmount;
-            amount = credit + lastMonthBrandGameCredit.ProfitAmount;
-            if (amount > credit)
-            {
-                amount = credit;
-            }
+            var credit = computingUtnsil.CreditCalculation(lastMonthBrandGameCredit.InitialAmount, lastMonthBrandGameCredit.CreditAmount, lastMonthBrandGameCredit.DebitAmount, lastMonthBrandGameCredit.ProfitAmount);
+            amount = (credit.CreditLimit < 0) ? credit.CreditLimit : credit.CreditAvailable;
         }
 
         await brandGameCreditRepository.UpdateInitialAsync(

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
-using Tgs.BrandGameCredits.Handler.Core;
+using Tgs.BrandGameCredits.Handler.Common;
 
-namespace Tgs.BrandGameCredits.Handler.Core;
+namespace Tgs.BrandGameCredits.Handler.Common;
 
 internal class BrandGameCreditTimeUtnsil : IBrandGameCreditTimeUtnsil
 {

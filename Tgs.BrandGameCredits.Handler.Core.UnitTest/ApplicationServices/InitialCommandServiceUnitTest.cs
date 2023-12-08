@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
+using Tgs.BrandGameCredits.Handler.Common.Models;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 using Tgs.BrandGameCredits.Handler.Core.Models;
 using Tgs.ServiceUtility;
@@ -13,6 +14,7 @@ public class InitialCommandServiceUnitTest
     public async Task Normal_Process()
     {
         var fakeBrandGameCreditTimeUtnsil = Substitute.For<IBrandGameCreditTimeUtnsil>();
+        var fakeBrandGameCreditComputingUtnsil = Substitute.For<IBrandGameCreditComputingUtnsil>();
         var fakeBrandGameCreditRepository = Substitute.For<IBrandGameCreditRepository>();
         var fakeInitialPublishService = Substitute.For<ICommandService<InitialPublishCommand>>();
 
@@ -53,8 +55,22 @@ public class InitialCommandServiceUnitTest
             cancellationToken: Arg.Any<CancellationToken>())
             .Returns(lastMonthBrandGameCredit);
 
+        var creditCalculationInfo = new CreditCalculationInfo(
+            110000m,
+            99999m,
+            90.9082m,
+            10001m,
+            9.0918m);
+        _ = fakeBrandGameCreditComputingUtnsil.CreditCalculation(
+            Arg.Is(lastMonthBrandGameCredit.InitialAmount),
+            Arg.Is(lastMonthBrandGameCredit.CreditAmount),
+            Arg.Is(lastMonthBrandGameCredit.DebitAmount),
+            Arg.Is(lastMonthBrandGameCredit.ProfitAmount))
+            .Returns(creditCalculationInfo);
+
         var service = new InitialCommandService(
             fakeBrandGameCreditTimeUtnsil,
+            fakeBrandGameCreditComputingUtnsil,
             fakeBrandGameCreditRepository,
             fakeInitialPublishService);
 
@@ -86,6 +102,7 @@ public class InitialCommandServiceUnitTest
     public async Task Profit_Exceeds_Credit()
     {
         var fakeBrandGameCreditTimeUtnsil = Substitute.For<IBrandGameCreditTimeUtnsil>();
+        var fakeBrandGameCreditComputingUtnsil = Substitute.For<IBrandGameCreditComputingUtnsil>();
         var fakeBrandGameCreditRepository = Substitute.For<IBrandGameCreditRepository>();
         var fakeInitialPublishService = Substitute.For<ICommandService<InitialPublishCommand>>();
 
@@ -126,8 +143,22 @@ public class InitialCommandServiceUnitTest
             cancellationToken: Arg.Any<CancellationToken>())
             .Returns(lastMonthBrandGameCredit);
 
+        var creditCalculationInfo = new CreditCalculationInfo(
+            110000m,
+            0,
+            0,
+            110000m,
+            100);
+        _ = fakeBrandGameCreditComputingUtnsil.CreditCalculation(
+            Arg.Is(lastMonthBrandGameCredit.InitialAmount),
+            Arg.Is(lastMonthBrandGameCredit.CreditAmount),
+            Arg.Is(lastMonthBrandGameCredit.DebitAmount),
+            Arg.Is(lastMonthBrandGameCredit.ProfitAmount))
+            .Returns(creditCalculationInfo);
+
         var service = new InitialCommandService(
             fakeBrandGameCreditTimeUtnsil,
+            fakeBrandGameCreditComputingUtnsil,
             fakeBrandGameCreditRepository,
             fakeInitialPublishService);
 
@@ -159,6 +190,7 @@ public class InitialCommandServiceUnitTest
     public async Task Insufficient_Credit()
     {
         var fakeBrandGameCreditTimeUtnsil = Substitute.For<IBrandGameCreditTimeUtnsil>();
+        var fakeBrandGameCreditComputingUtnsil = Substitute.For<IBrandGameCreditComputingUtnsil>();
         var fakeBrandGameCreditRepository = Substitute.For<IBrandGameCreditRepository>();
         var fakeInitialPublishService = Substitute.For<ICommandService<InitialPublishCommand>>();
 
@@ -199,8 +231,22 @@ public class InitialCommandServiceUnitTest
             cancellationToken: Arg.Any<CancellationToken>())
             .Returns(lastMonthBrandGameCredit);
 
+        var creditCalculationInfo = new CreditCalculationInfo(
+            -1,
+            -1,
+            100,
+            0,
+            0);
+        _ = fakeBrandGameCreditComputingUtnsil.CreditCalculation(
+            Arg.Is(lastMonthBrandGameCredit.InitialAmount),
+            Arg.Is(lastMonthBrandGameCredit.CreditAmount),
+            Arg.Is(lastMonthBrandGameCredit.DebitAmount),
+            Arg.Is(lastMonthBrandGameCredit.ProfitAmount))
+            .Returns(creditCalculationInfo);
+
         var service = new InitialCommandService(
             fakeBrandGameCreditTimeUtnsil,
+            fakeBrandGameCreditComputingUtnsil,
             fakeBrandGameCreditRepository,
             fakeInitialPublishService);
 

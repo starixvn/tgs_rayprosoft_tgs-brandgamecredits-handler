@@ -1,4 +1,4 @@
-﻿namespace Tgs.BrandGameCredits.Handler.Core;
+﻿namespace Tgs.BrandGameCredits.Handler.Common;
 
 public interface IBrandGameCreditTimeUtnsil
 {

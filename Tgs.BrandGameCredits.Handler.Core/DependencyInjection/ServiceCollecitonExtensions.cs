@@ -11,7 +11,7 @@ public static class ServiceCollecitonExtensions
         .RegisterAllServiceUtilityTypes(
             Assembly.GetExecutingAssembly(),
             ServiceLifetime.Transient)
+        .AddBrandGameCreditsHandlerCommon()
         .AddSingleton<ISystemClock, SystemClock>()
-        .AddSingleton<IBrandGameCreditTimeUtnsil, BrandGameCreditTimeUtnsil>()
         .AddSingleton<IHandlerDispatcher, HandlerDispatcher>();
 }

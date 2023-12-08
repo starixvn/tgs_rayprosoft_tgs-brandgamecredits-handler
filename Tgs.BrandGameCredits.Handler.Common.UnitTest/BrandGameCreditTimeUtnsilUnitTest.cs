@@ -1,6 +1,4 @@
-﻿using NSubstitute;
-
-namespace Tgs.BrandGameCredits.Handler.Core.UnitTest;
+﻿namespace Tgs.BrandGameCredits.Handler.Common.UnitTest;
 
 public class BrandGameCreditTimeUtnsilUnitTest
 {
