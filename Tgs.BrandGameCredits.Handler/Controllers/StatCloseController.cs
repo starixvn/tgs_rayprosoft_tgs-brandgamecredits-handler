@@ -57,7 +57,7 @@ public class StatCloseController : ControllerBase
         };
 
         await messageSender.PublishAsync(
-            subject: "game.gamewager.brand.stat.close.publish",
+            subject: "game.gamewager.brand.stat.finish.publish",
             data: publish.ToByteArray(),
             cancellationToken: HttpContext.RequestAborted);
     }

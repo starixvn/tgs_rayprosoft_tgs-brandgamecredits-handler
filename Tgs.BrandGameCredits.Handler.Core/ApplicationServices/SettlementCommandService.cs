@@ -33,7 +33,44 @@ internal class SettlementCommandService(
 
         if (brandGameCredit is not null)
         {
-            var tasks = new Task[] {
+            await creditService.ExecuteAsync(
+                    command: new CreditCommand(
+                        ResellerId: command.ResellerId,
+                        ResellerCode: command.ResellerCode,
+                        LicenseeId: command.LicenseeId,
+                        LicenseeCode: command.LicenseeCode,
+                        BrandId: command.BrandId,
+                        BrandCode: command.BrandCode,
+                        CurrentTime: command.CurrentTime),
+                    cancellationToken: cancellationToken)
+                    .ConfigureAwait(false);
+
+            await debitService.ExecuteAsync(
+                    command: new DebitCommand(
+                        ResellerId: command.ResellerId,
+                        ResellerCode: command.ResellerCode,
+                        LicenseeId: command.LicenseeId,
+                        LicenseeCode: command.LicenseeCode,
+                        BrandId: command.BrandId,
+                        BrandCode: command.BrandCode,
+                        CurrentTime: command.CurrentTime),
+                    cancellationToken: cancellationToken)
+                    .ConfigureAwait(false);
+
+            await profitService.ExecuteAsync(
+                    command: new ProfitCommand(
+                        ResellerId: command.ResellerId,
+                        ResellerCode: command.ResellerCode,
+                        LicenseeId: command.LicenseeId,
+                        LicenseeCode: command.LicenseeCode,
+                        BrandId: command.BrandId,
+                        BrandCode: command.BrandCode,
+                        CurrentTime: command.CurrentTime),
+                    cancellationToken: cancellationToken)
+                    .ConfigureAwait(false);
+
+            /*
+             var tasks = new Task[] {
                 Task.Run(async () => {await creditService.ExecuteAsync(
                     command: new CreditCommand(
                         ResellerId: command.ResellerId,
@@ -72,6 +109,7 @@ internal class SettlementCommandService(
                     cancellationToken:cancellationToken)
             };
             await Task.WhenAll(tasks).ConfigureAwait(false);
+            */
         }
 
         var currentTime = systemClock.CurrentTime;
