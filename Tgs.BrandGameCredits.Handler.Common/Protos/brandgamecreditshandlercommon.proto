@@ -23,3 +23,18 @@ message BrandGameCreditPublish {
     // 當前時間
     google.protobuf.Timestamp current_time = 7;
 }
+
+message BrandGameCreditUpdatePublish {
+    // 總公司識別碼
+    phoenix.protobuf.GuidValue reseller_id = 1;
+    // 總公司代碼
+    string reseller_code = 2;
+    // 公司識別碼
+    phoenix.protobuf.GuidValue licensee_id = 3;
+    // 公司代碼
+    string licensee_code = 4;
+    // 平台識別碼
+    phoenix.protobuf.GuidValue brand_id = 5;
+    // 平台代碼
+    string brand_code = 6;
+}

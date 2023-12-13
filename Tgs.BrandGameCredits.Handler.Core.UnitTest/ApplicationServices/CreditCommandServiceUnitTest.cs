@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using NSubstitute;
+﻿using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 using Tgs.BrandGameCredits.Handler.Core.Models;
@@ -16,6 +15,7 @@ public class CreditCommandServiceUnitTest
         var fakeBrandGameCreditTxnRepository = Substitute.For<IBrandGameCreditTxnRepository>();
         var fakeBrandGameCreditRepository = Substitute.For<IBrandGameCreditRepository>();
         var fakePublishService = Substitute.For<ICommandService<PublishCommand>>();
+        var fakeUpdatePublishService = Substitute.For<ICommandService<UpdatePublishCommand>>();
 
         var command = new CreditCommand(
             ResellerId: Guid.NewGuid(),
@@ -65,7 +65,8 @@ public class CreditCommandServiceUnitTest
             fakeBrandGameCreditTimeUtnsil,
             fakeBrandGameCreditTxnRepository,
             fakeBrandGameCreditRepository,
-            fakePublishService);
+            fakePublishService,
+            fakeUpdatePublishService);
 
         await service.ExecuteAsync(command: command);
 
@@ -90,6 +91,18 @@ public class CreditCommandServiceUnitTest
                 BrandCode: command.BrandCode,
                 CurrentTime: monthTimeZone.AddMonths(-1))),
             cancellationToken: Arg.Any<CancellationToken>());
+
+        _ = fakeUpdatePublishService
+            .Received(1)
+            .ExecuteAsync(
+            command: Arg.Is(new UpdatePublishCommand(
+                ResellerId: command.ResellerId,
+                ResellerCode: command.ResellerCode,
+                LicenseeId: command.LicenseeId,
+                LicenseeCode: command.LicenseeCode,
+                BrandId: command.BrandId,
+                BrandCode: command.BrandCode)),
+            cancellationToken: Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -99,6 +112,7 @@ public class CreditCommandServiceUnitTest
         var fakeBrandGameCreditTxnRepository = Substitute.For<IBrandGameCreditTxnRepository>();
         var fakeBrandGameCreditRepository = Substitute.For<IBrandGameCreditRepository>();
         var fakePublishService = Substitute.For<ICommandService<PublishCommand>>();
+        var fakeUpdatePublishService = Substitute.For<ICommandService<UpdatePublishCommand>>();
 
         var command = new CreditCommand(
             ResellerId: Guid.NewGuid(),
@@ -131,7 +145,8 @@ public class CreditCommandServiceUnitTest
             fakeBrandGameCreditTimeUtnsil,
             fakeBrandGameCreditTxnRepository,
             fakeBrandGameCreditRepository,
-            fakePublishService);
+            fakePublishService,
+            fakeUpdatePublishService);
 
         await service.ExecuteAsync(command: command);
 
@@ -163,6 +178,18 @@ public class CreditCommandServiceUnitTest
                 BrandId: command.BrandId,
                 BrandCode: command.BrandCode,
                 CurrentTime: monthTimeZone.AddMonths(-1))),
+            cancellationToken: Arg.Any<CancellationToken>());
+
+        _ = fakeUpdatePublishService
+            .Received(0)
+            .ExecuteAsync(
+            command: Arg.Is(new UpdatePublishCommand(
+                ResellerId: command.ResellerId,
+                ResellerCode: command.ResellerCode,
+                LicenseeId: command.LicenseeId,
+                LicenseeCode: command.LicenseeCode,
+                BrandId: command.BrandId,
+                BrandCode: command.BrandCode)),
             cancellationToken: Arg.Any<CancellationToken>());
     }
 }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging.Abstractions;
-using NSubstitute;
+﻿using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
-using Tgs.BrandGameCredits.Handler.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.BrandGameCredits.Handler.Core.UnitTest.ApplicationServices;
@@ -27,7 +20,6 @@ public class InitialPublishCommandServiceUnitTest
             BrandId: Guid.NewGuid(),
             BrandCode: "GPI",
             CurrentTime: new DateTimeOffset(2023, 11, 01, 00, 00, 00, TimeSpan.FromMinutes(480)));
-
 
         var service = new InitialPublishCommandService(
             fakePublishService);

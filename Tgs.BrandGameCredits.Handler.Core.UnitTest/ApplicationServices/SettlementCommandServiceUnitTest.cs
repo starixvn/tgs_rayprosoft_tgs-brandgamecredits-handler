@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;

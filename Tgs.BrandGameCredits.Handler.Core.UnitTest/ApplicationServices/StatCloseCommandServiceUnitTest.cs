@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSubstitute;
+﻿using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
-using Tgs.BrandGameCredits.Handler.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.BrandGameCredits.Handler.Core.UnitTest.ApplicationServices;

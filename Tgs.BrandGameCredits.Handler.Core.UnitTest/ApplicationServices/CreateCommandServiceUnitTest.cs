@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using NSubstitute;
+﻿using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 using Tgs.BrandGameCredits.Handler.Core.Models;

@@ -7,7 +7,8 @@ internal class CreditCommandService(
     IBrandGameCreditTimeUtnsil timeUtnsil,
     IBrandGameCreditTxnRepository brandGameCreditTxnRepository,
     IBrandGameCreditRepository brandGameCreditRepository,
-    ICommandService<PublishCommand> service) : ICommandService<CreditCommand>
+    ICommandService<PublishCommand> publishService,
+    ICommandService<UpdatePublishCommand> updatePublishService) : ICommandService<CreditCommand>
 {
     public async ValueTask ExecuteAsync(CreditCommand command, CancellationToken cancellationToken = default)
     {
@@ -20,7 +21,7 @@ internal class CreditCommandService(
             cancellationToken: cancellationToken)
             .ConfigureAwait(false) is null)
         {
-            await service.ExecuteAsync(
+            await publishService.ExecuteAsync(
                 command: new PublishCommand(
                     Subject: BrandGameCreditsHandlerNatsConst.Settlement,
                     ResellerId: command.ResellerId,
@@ -32,22 +33,33 @@ internal class CreditCommandService(
                     CurrentTime: monthTimeZone.AddMonths(-1)),
                 cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
-        }
-        else
-        {
-            var amount = await brandGameCreditTxnRepository.SumCreditAsync(
-                brandId: command.BrandId,
-                createdOnStart: monthTimeZone,
-                createdOnEnd: monthTimeZone.AddMonths(1),
-                cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
 
-            await brandGameCreditRepository.UpdateCreditAsync(
-                brandId: command.BrandId,
-                month: monthDateOnly,
-                amount: amount,
-                cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
+            return;
         }
+
+        var amount = await brandGameCreditTxnRepository.SumCreditAsync(
+            brandId: command.BrandId,
+            createdOnStart: monthTimeZone,
+            createdOnEnd: monthTimeZone.AddMonths(1),
+            cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
+
+        await brandGameCreditRepository.UpdateCreditAsync(
+            brandId: command.BrandId,
+            month: monthDateOnly,
+            amount: amount,
+            cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
+
+        await updatePublishService.ExecuteAsync(
+            command: new UpdatePublishCommand(
+                ResellerId: command.ResellerId,
+                ResellerCode: command.ResellerCode,
+                LicenseeId: command.LicenseeId,
+                LicenseeCode: command.LicenseeCode,
+                BrandId: command.BrandId,
+                BrandCode: command.BrandCode),
+            cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
     }
 }

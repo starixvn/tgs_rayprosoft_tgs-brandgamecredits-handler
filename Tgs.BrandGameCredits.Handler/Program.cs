@@ -77,7 +77,8 @@ builder.Services
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Credit)
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Debit)
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Profit)
-    .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Settlement);
+    .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Settlement)
+    .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Update);
 
 builder.Services
     .AddOpenTelemetry()
