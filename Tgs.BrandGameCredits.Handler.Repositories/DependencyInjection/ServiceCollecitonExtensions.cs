@@ -22,7 +22,8 @@ public static class ServiceCollecitonExtensions
         .AddTransient<IBrandGameCreditRepository, BrandGameCreditRepository>()
         .AddTransient<IBrandGameCreditTxnRepository, BrandGameCreditTxnRepository>()
         .AddTransient<IBrandRepository, BrandRepository>()
-        .AddTransient<IGameWagerStatDailyCloseRepository, GameWagerStatDailyCloseRepository>();
+        .AddTransient<IGameWagerStatDailyCloseRepository, GameWagerStatDailyCloseRepository>()
+        .AddTransient<IBrandGameCreditProfitRepository, BrandGameCreditProfitRepository>();
 
         SqlMapper.SetTypeMap(typeof(BrandInfo), new ColumnTypeMapper(typeof(BrandInfo)));
 

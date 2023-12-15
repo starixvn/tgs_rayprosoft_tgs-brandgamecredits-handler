@@ -13,6 +13,7 @@ public class ProfitCommandServiceUnitTest
     {
         var fakeBrandGameCreditTimeUtnsil = Substitute.For<IBrandGameCreditTimeUtnsil>();
         var fakeGameWagerStatDailyCloseRepository = Substitute.For<IGameWagerStatDailyCloseRepository>();
+        var fakeBrandGameCreditProfitRepository = Substitute.For<IBrandGameCreditProfitRepository>();
         var fakeBrandGameCreditRepository = Substitute.For<IBrandGameCreditRepository>();
         var fakePublishService = Substitute.For<ICommandService<PublishCommand>>();
         var fakeUpdatePublishService = Substitute.For<ICommandService<UpdatePublishCommand>>();
@@ -96,18 +97,53 @@ public class ProfitCommandServiceUnitTest
         var service = new ProfitCommandService(
             fakeBrandGameCreditTimeUtnsil,
             fakeGameWagerStatDailyCloseRepository,
+            fakeBrandGameCreditProfitRepository,
             fakeBrandGameCreditRepository,
             fakePublishService,
             fakeUpdatePublishService);
 
         await service.ExecuteAsync(command: command);
 
+        _ = fakeBrandGameCreditProfitRepository
+            .Received(1)
+            .DeleteBatchAsync(
+            brandId: Arg.Is(command.BrandId),
+            month: Arg.Is(monthDateOnly),
+            cancellationToken: Arg.Any<CancellationToken>());
+
+        var gameCreditProfitAdds = gameWagerStats.GroupBy(
+            keySelector: keySelector => new
+            {
+                keySelector.ResellerId,
+                keySelector.LicenseeId,
+                keySelector.BrandId,
+                keySelector.GameProviderId
+            })
+            .Select(selector => new BrandGameCreditProfitAdd(
+                BrandId: selector.Key.BrandId,
+                Month: monthDateOnly,
+                GameProviderId: selector.Key.GameProviderId,
+                Count: selector.Sum(selector => selector.Count),
+                Bet: selector.Sum(selector => selector.Bet),
+                ValidBet: selector.Sum(selector => selector.ValidBet),
+                Settle: selector.Sum(selector => selector.Settle),
+                Commission: selector.Sum(selector => selector.Commission),
+                Turnover: selector.Sum(selector => selector.Turnover),
+                WinLoss: selector.Sum(selector => selector.WinLoss)))
+            .ToArray()
+            ?? Enumerable.Empty<BrandGameCreditProfitAdd>();
+        _ = fakeBrandGameCreditProfitRepository
+            .Received(1)
+            .InsertBatchAsync(
+            source: Arg.Any<IEnumerable<BrandGameCreditProfitAdd>>(),
+            cancellationToken: Arg.Any<CancellationToken>());
+
         _ = fakeBrandGameCreditRepository
             .Received(1)
             .UpdateProfitAsync(
             brandId: Arg.Is(command.BrandId),
             month: Arg.Is(monthDateOnly),
-            amount: Arg.Is(gameWagerStats.Sum(selector => selector.WinLoss)),
+            amount: Arg.Is(gameCreditProfitAdds.Sum(selector => selector.WinLoss)),
             cancellationToken: Arg.Any<CancellationToken>());
 
         _ = fakePublishService
@@ -142,6 +178,7 @@ public class ProfitCommandServiceUnitTest
     {
         var fakeBrandGameCreditTimeUtnsil = Substitute.For<IBrandGameCreditTimeUtnsil>();
         var fakeGameWagerStatDailyCloseRepository = Substitute.For<IGameWagerStatDailyCloseRepository>();
+        var fakeBrandGameCreditProfitRepository = Substitute.For<IBrandGameCreditProfitRepository>();
         var fakeBrandGameCreditRepository = Substitute.For<IBrandGameCreditRepository>();
         var fakePublishService = Substitute.For<ICommandService<PublishCommand>>();
         var fakeUpdatePublishService = Substitute.For<ICommandService<UpdatePublishCommand>>();
@@ -176,6 +213,7 @@ public class ProfitCommandServiceUnitTest
         var service = new ProfitCommandService(
             fakeBrandGameCreditTimeUtnsil,
             fakeGameWagerStatDailyCloseRepository,
+            fakeBrandGameCreditProfitRepository,
             fakeBrandGameCreditRepository,
             fakePublishService,
             fakeUpdatePublishService);
@@ -190,6 +228,19 @@ public class ProfitCommandServiceUnitTest
             statOnEnd: Arg.Is(monthTimeZone.AddMonths(1)),
             dayStart: Arg.Is(monthDateOnly),
             dayEnd: Arg.Is(monthDateOnly.AddMonths(1)),
+            cancellationToken: Arg.Any<CancellationToken>());
+
+        _ = fakeBrandGameCreditProfitRepository
+            .Received(0)
+            .DeleteBatchAsync(
+            brandId: Arg.Is(command.BrandId),
+            month: Arg.Is(monthDateOnly),
+            cancellationToken: Arg.Any<CancellationToken>());
+
+        _ = fakeBrandGameCreditProfitRepository
+            .Received(0)
+            .InsertBatchAsync(
+            source: Arg.Any<IEnumerable<BrandGameCreditProfitAdd>>(),
             cancellationToken: Arg.Any<CancellationToken>());
 
         _ = fakeBrandGameCreditRepository

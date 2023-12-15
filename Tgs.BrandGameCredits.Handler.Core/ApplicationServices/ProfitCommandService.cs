@@ -1,4 +1,5 @@
 ﻿using Tgs.BrandGameCredits.Handler.Common;
+using Tgs.BrandGameCredits.Handler.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
@@ -6,6 +7,7 @@ namespace Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 internal class ProfitCommandService(
     IBrandGameCreditTimeUtnsil timeUtnsil,
     IGameWagerStatDailyCloseRepository gameWagerStatDailyCloseRepository,
+    IBrandGameCreditProfitRepository brandGameCreditProfitRepository,
     IBrandGameCreditRepository brandGameCreditRepository,
     ICommandService<PublishCommand> publishService,
     ICommandService<UpdatePublishCommand> updatePublishService) : ICommandService<ProfitCommand>
@@ -46,12 +48,46 @@ internal class ProfitCommandService(
             cancellationToken: cancellationToken)
             .ToArrayAsync(
             cancellationToken: cancellationToken)
+            .ConfigureAwait(false)
+            ?? Enumerable.Empty<GameWagerStatDailyCloseInfo>();
+
+        await brandGameCreditProfitRepository.DeleteBatchAsync(
+              brandId: command.BrandId,
+              month: monthDateOnly,
+              cancellationToken: cancellationToken)
+              .ConfigureAwait(false);
+
+        var gameCreditProfitAdds = gameWagerStats.GroupBy(
+            keySelector: keySelector => new
+            {
+                keySelector.ResellerId,
+                keySelector.LicenseeId,
+                keySelector.BrandId,
+                keySelector.GameProviderId
+            })
+            .Select(selector => new BrandGameCreditProfitAdd(
+                BrandId: selector.Key.BrandId,
+                Month: monthDateOnly,
+                GameProviderId: selector.Key.GameProviderId,
+                Count: selector.Sum(selector => selector.Count),
+                Bet: selector.Sum(selector => selector.Bet),
+                ValidBet: selector.Sum(selector => selector.ValidBet),
+                Settle: selector.Sum(selector => selector.Settle),
+                Commission: selector.Sum(selector => selector.Commission),
+                Turnover: selector.Sum(selector => selector.Turnover),
+                WinLoss: selector.Sum(selector => selector.WinLoss)))
+            .ToArray()
+            ?? Enumerable.Empty<BrandGameCreditProfitAdd>();
+
+        await brandGameCreditProfitRepository.InsertBatchAsync(
+            source: gameCreditProfitAdds,
+            cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         await brandGameCreditRepository.UpdateProfitAsync(
             brandId: command.BrandId,
             month: monthDateOnly,
-            amount: gameWagerStats.Sum(selector => selector.WinLoss),
+            amount: gameCreditProfitAdds.Sum(selector => selector.WinLoss),
             cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
