@@ -17,7 +17,6 @@ public class CreateController : ControllerBase
     /// <summary>
     /// Posts the asynchronous.
     /// </summary>
-    /// <param name="systemClock">The system clock.</param>
     /// <param name="repository">The repository.</param>
     /// <param name="service">The service.</param>
     /// <param name="source">The source.</param>
@@ -27,13 +26,13 @@ public class CreateController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "brandCode": "GPI"
+    ///             "brandCode": "GPI",
+    ///             "MonthTime": "2023-12-01T00:00:00+08:00"
     ///         }
     /// </remarks>
     /// <exception cref="System.NullReferenceException">This brand does not exist.{source.BrandCode}</exception>
     [HttpPost]
     public async ValueTask PostAsync(
-        [FromServices] ISystemClock systemClock,
         [FromServices] IBrandRepository repository,
         [FromServices] ICommandService<PublishCommand> service,
         CreateViewModel source)
@@ -53,7 +52,7 @@ public class CreateController : ControllerBase
                 LicenseeCode: info.LicenseeCode,
                 BrandId: info.BrandId,
                 BrandCode: info.BrandCode,
-                CurrentTime: systemClock.CurrentTime),
+                CurrentTime: source.MonthTime),
             cancellationToken: HttpContext.RequestAborted)
             .ConfigureAwait(false);
     }
