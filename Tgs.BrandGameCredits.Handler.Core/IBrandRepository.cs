@@ -5,4 +5,6 @@ namespace Tgs.BrandGameCredits.Handler.Core;
 public interface IBrandRepository
 {
     ValueTask<BrandInfo?> GetAsync(string code, CancellationToken cancellationToken = default);
+
+    IAsyncEnumerable<BrandInfo> QueryAsync(CancellationToken cancellationToken = default);
 }
