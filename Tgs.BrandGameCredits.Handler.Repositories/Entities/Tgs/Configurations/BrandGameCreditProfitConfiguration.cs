@@ -41,6 +41,10 @@ namespace Tgs.BrandGameCredits.Handler.Repositories.Entities.Configurations
             .HasDefaultValue(0)
             .HasComment("筆數")
             .HasColumnName("count");
+            entity.Property(e => e.ProfitAmount)
+            .HasPrecision(18, 6)
+            .HasComment("利潤額度")
+            .HasColumnName("profit_amount");
             entity.Property(e => e.Settle)
             .HasPrecision(18, 6)
             .HasComment("結算(包含本金)")

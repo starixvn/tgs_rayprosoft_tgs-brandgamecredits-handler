@@ -22,19 +22,21 @@ internal class BrandGameCreditProfitRepository(TgsContext context) : IBrandGameC
             return;
         }
 
-        var entities = source.Select(selector: selector => new BrandGameCreditProfit
-        {
-            BrandId = selector.BrandId,
-            Month = selector.Month,
-            GameProviderId = selector.GameProviderId,
-            Count = selector.Count,
-            Bet = selector.Bet,
-            ValidBet = selector.ValidBet,
-            Settle = selector.Settle,
-            Commission = selector.Commission,
-            Turnover = selector.Turnover,
-            WinLoss = selector.WinLoss,
-        });
+        var entities = source
+            .Select(selector: selector => new BrandGameCreditProfit
+            {
+                BrandId = selector.BrandId,
+                Month = selector.Month,
+                GameProviderId = selector.GameProviderId,
+                Count = selector.Count,
+                Bet = selector.Bet,
+                ValidBet = selector.ValidBet,
+                Settle = selector.Settle,
+                Commission = selector.Commission,
+                Turnover = selector.Turnover,
+                WinLoss = selector.WinLoss,
+                ProfitAmount = (selector.WinLoss > 0) ? 0 : selector.WinLoss * -1
+            });
 
         await context.BrandGameCreditProfits.AddRangeAsync(
             entities,

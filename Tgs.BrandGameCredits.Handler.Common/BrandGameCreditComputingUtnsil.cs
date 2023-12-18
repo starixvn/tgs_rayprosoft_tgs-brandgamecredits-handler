@@ -11,10 +11,9 @@ internal class BrandGameCreditComputingUtnsil : IBrandGameCreditComputingUtnsil
         var creditAvailablePer = 100m;
         var creditUsed = 0.0m;
         var creditUsedPer = 0.0m;
-
-        if (creditLimit + profitAmount < 0)
+        if (creditLimit - profitAmount < 0)
         {
-            creditLimit += profitAmount;
+            creditLimit -= profitAmount;
             creditAvailable = 0;
             creditAvailablePer = 0;
             creditUsed = creditLimit;
@@ -22,9 +21,9 @@ internal class BrandGameCreditComputingUtnsil : IBrandGameCreditComputingUtnsil
         }
         else
         {
-            if (creditLimit + profitAmount < creditLimit)
+            if (creditLimit - profitAmount < creditLimit)
             {
-                creditAvailable = creditLimit + profitAmount;
+                creditAvailable = creditLimit - profitAmount;
                 creditAvailablePer = decimal.Parse((creditAvailable / creditLimit * 100).ToString("#.0000"));
                 creditUsed = creditLimit - creditAvailable;
                 creditUsedPer = 100m - creditAvailablePer;

@@ -1,4 +1,5 @@
-﻿using Tgs.BrandGameCredits.Handler.Common;
+﻿using System;
+using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.BrandGameCredits.Handler.Core.Models;
 using Tgs.ServiceUtility;
 
@@ -87,7 +88,7 @@ internal class ProfitCommandService(
         await brandGameCreditRepository.UpdateProfitAsync(
             brandId: command.BrandId,
             month: monthDateOnly,
-            amount: gameCreditProfitAdds.Sum(selector => selector.WinLoss),
+            amount: gameCreditProfitAdds.Where(predicate: predicate => predicate.WinLoss < 0).Sum(selector => Math.Abs(selector.WinLoss)),
             cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 

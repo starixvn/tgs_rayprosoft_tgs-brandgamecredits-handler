@@ -56,4 +56,9 @@ public partial class BrandGameCreditProfit
     /// 玩家損益/淨利
     /// </summary>
     public decimal WinLoss { get; set; }
+
+    /// <summary>
+    /// 利潤額度
+    /// </summary>
+    public decimal ProfitAmount { get; set; }
 }
