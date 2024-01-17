@@ -28,7 +28,7 @@ internal class UpdatePublishCommandService(
             BrandGameCreditsHandlerNatsConst.Update,
             publish);
 
-        return messageSender.PublishAsync(
+        return messageSender.PublishAsync<ReadOnlyMemory<byte>>(
             subject: BrandGameCreditsHandlerNatsConst.Update,
             data: publish.ToByteArray(),
             cancellationToken: cancellationToken);

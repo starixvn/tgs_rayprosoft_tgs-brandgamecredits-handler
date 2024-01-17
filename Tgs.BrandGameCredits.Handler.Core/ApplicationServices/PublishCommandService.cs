@@ -29,7 +29,7 @@ internal class PublishCommandService(
             command.Subject,
             publish);
 
-        return messageSender.PublishAsync(
+        return messageSender.PublishAsync<ReadOnlyMemory<byte>>(
             subject: command.Subject,
             data: publish.ToByteArray(),
             cancellationToken: cancellationToken);
