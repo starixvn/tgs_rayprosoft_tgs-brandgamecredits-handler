@@ -1,5 +1,5 @@
-﻿using System.Threading.Channels;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics;
+using System.Threading.Channels;
 
 using Microsoft.Extensions.Logging;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
@@ -12,6 +12,8 @@ internal class HandlerChannel(
     ICommandService<DispatcherCommand> service,
     string key) : IDisposable
 {
+    private static readonly ActivitySource _ActivitySource = new(name: typeof(HandlerChannel).FullName!);
+
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
     private readonly Channel<DispatcherCommand> _channel = Channel.CreateUnbounded<DispatcherCommand>(
@@ -125,6 +127,10 @@ internal class HandlerChannel(
         {
             if (reader.TryRead(out var command))
             {
+                using var activity = _ActivitySource.StartActivity(
+                    "HandlerChannel handle exchange",
+                     ActivityKind.Internal,
+                    parentContext: default);
                 try
                 {
                     logger.LogDebug("LogOn:{logOn} Key:{key} Command:{command}", DateTime.Now.ToString("o"), Key, command);
