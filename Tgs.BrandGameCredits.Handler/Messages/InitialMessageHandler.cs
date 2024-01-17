@@ -9,9 +9,9 @@ namespace Tgs.BrandGameCredits.Handler.Messages;
 
 public class InitialMessageHandler(
     ILogger<InitialMessageHandler> logger,
-    IHandlerDispatcher dispatcher) : IMessageHandler
+    IHandlerDispatcher dispatcher) : IMessageHandler<ReadOnlyMemory<byte>>
 {
-    public ValueTask HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
+    public ValueTask HandleAsync(string subject, ReadOnlyMemory<byte> data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
     {
         var publish = BrandGameCreditPublish.Parser.ParseFrom(data.Span)
             ?? throw new NullReferenceException("The request data resolves to a null value");

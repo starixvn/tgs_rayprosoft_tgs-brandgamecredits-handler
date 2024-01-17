@@ -1,5 +1,4 @@
-﻿using NATS.Client.Service;
-using Tgs.BrandGameCredits.Handler.Common;
+﻿using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.ServiceUtility;
 
 namespace Tgs.BrandGameCredits.Handler.Core.ApplicationServices;

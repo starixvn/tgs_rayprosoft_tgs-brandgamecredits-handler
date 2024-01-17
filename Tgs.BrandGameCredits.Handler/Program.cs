@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NATS.Client.Core;
 using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -56,13 +57,13 @@ builder.Services.AddBrandGameCredits(
     });
 
 builder.Services
+    .AddKeyedSingleton("Nats", (sp, _) => new NatsConnection(NatsOpts.Default with
+    {
+        Url = builder.Configuration.GetConnectionString("Nats")!
+    }))
     .AddMessageQueue()
     .AddNatsMessageQueue(config => config
-    .ConfigQueueOptions((options, sp) =>
-    {
-        var configuration = sp.GetRequiredService<IConfiguration>();
-        options.Url = configuration.GetConnectionString("Nats")!;
-    })
+    .ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
     .AddHandler<StatCloseMessageHandler>("game.gamewager.brand.stat.finish.publish", BrandGameCreditsHandlerNatsConst.StatClose)
     .AddHandler<CreateMessageHandler>(BrandGameCreditsHandlerNatsConst.Create, BrandGameCreditsHandlerNatsConst.Create)
     .AddHandler<InitialMessageHandler>(BrandGameCreditsHandlerNatsConst.Initial, BrandGameCreditsHandlerNatsConst.Initial)

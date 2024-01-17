@@ -8,9 +8,9 @@ using Tgs.ServiceUtility;
 namespace Tgs.BrandGameCredits.Handler.Core;
 
 internal class HandlerChannel(
-    string key,
     ILogger<HandlerChannel> logger,
-    IServiceProvider serviceProvider) : IDisposable
+    ICommandService<DispatcherCommand> service,
+    string key) : IDisposable
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
@@ -129,8 +129,6 @@ internal class HandlerChannel(
                 {
                     logger.LogDebug("LogOn:{logOn} Key:{key} Command:{command}", DateTime.Now.ToString("o"), Key, command);
 
-                    await using var scope = serviceProvider.CreateAsyncScope();
-                    var service = scope.ServiceProvider.GetRequiredService<ICommandService<DispatcherCommand>>();
                     await service.ExecuteAsync(
                         command: command,
                         cancellationToken: cancellationToken)

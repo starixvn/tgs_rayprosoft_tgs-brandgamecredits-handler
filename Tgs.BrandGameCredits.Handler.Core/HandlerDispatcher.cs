@@ -1,5 +1,8 @@
 ﻿using System.Collections.Concurrent;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
+using NATS.Client;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 
 namespace Tgs.BrandGameCredits.Handler.Core;
@@ -36,7 +39,8 @@ internal class HandlerDispatcher(IServiceProvider serviceProvider) : IHandlerDis
     {
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cancellationTokenSource.Token);
 
-        var key = string.Join('-', new string[] { command.ResellerCode, command.LicenseeCode, command.BrandCode });
+        //var key = string.Join('-', new string[] { command.ResellerCode, command.LicenseeCode, command.BrandCode });
+        var key = typeof(HandlerDispatcher).FullName!;
         if (!_counters.TryGetValue(key, out HandlerChannel? channel))
         {
             await InitAsync(
