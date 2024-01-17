@@ -39,8 +39,8 @@ internal class HandlerDispatcher(IServiceProvider serviceProvider) : IHandlerDis
     {
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cancellationTokenSource.Token);
 
-        //var key = string.Join('-', new string[] { command.ResellerCode, command.LicenseeCode, command.BrandCode });
-        var key = typeof(HandlerDispatcher).FullName!;
+        var key = string.Join('-', new string[] { command.ResellerCode, command.LicenseeCode, command.BrandCode });
+        //var key = typeof(HandlerDispatcher).FullName!;
         if (!_counters.TryGetValue(key, out HandlerChannel? channel))
         {
             await InitAsync(
@@ -68,7 +68,7 @@ internal class HandlerDispatcher(IServiceProvider serviceProvider) : IHandlerDis
     }
 
     private ValueTask InitAsync(
-                string key,
+        string key,
         CancellationToken cancellationToken = default)
     {
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cancellationTokenSource.Token);
