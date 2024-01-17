@@ -7,7 +7,9 @@ namespace Tgs.BrandGameCredits.Handler.Repositories;
 internal class BrandGameCreditTxnRepository(TgsContext context) : IBrandGameCreditTxnRepository
 {
     public async ValueTask<decimal> SumCreditAsync(Guid brandId, DateTimeOffset createdOnStart, DateTimeOffset createdOnEnd, CancellationToken cancellationToken)
-        => await context.BrandGameCreditTxns.AsQueryable()
+    {
+        context.ChangeTracker.Clear();
+        return await context.BrandGameCreditTxns.AsQueryable()
         .Where(
             predicate: predicate => predicate.CreatedOn >= createdOnStart.UtcDateTime
             && predicate.CreatedOn < createdOnEnd.UtcDateTime
@@ -17,9 +19,12 @@ internal class BrandGameCreditTxnRepository(TgsContext context) : IBrandGameCred
             selector: selector => selector.Amount,
             cancellationToken)
         .ConfigureAwait(false);
+    }
 
     public async ValueTask<decimal> SumDebitAsync(Guid brandId, DateTimeOffset createdOnStart, DateTimeOffset createdOnEnd, CancellationToken cancellationToken)
-        => await context.BrandGameCreditTxns.AsQueryable()
+    {
+        context.ChangeTracker.Clear();
+        return await context.BrandGameCreditTxns.AsQueryable()
         .Where(
             predicate: predicate => predicate.CreatedOn >= createdOnStart.UtcDateTime
             && predicate.CreatedOn < createdOnEnd.UtcDateTime
@@ -29,4 +34,5 @@ internal class BrandGameCreditTxnRepository(TgsContext context) : IBrandGameCred
             selector: selector => selector.Amount,
             cancellationToken)
         .ConfigureAwait(false);
+    }
 }
