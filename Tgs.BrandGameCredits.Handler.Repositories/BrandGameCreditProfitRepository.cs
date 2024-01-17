@@ -1,4 +1,5 @@
-﻿using Tgs.BrandGameCredits.Handler.Core;
+﻿using Microsoft.Extensions.Logging;
+using Tgs.BrandGameCredits.Handler.Core;
 using Tgs.BrandGameCredits.Handler.Core.Models;
 using Tgs.BrandGameCredits.Handler.Repositories.Entities;
 using Z.EntityFramework.Plus;
@@ -12,7 +13,9 @@ internal class BrandGameCreditProfitRepository(TgsContext context) : IBrandGameC
         _ = await context.BrandGameCreditProfits
             .Where(predicate: predicate => predicate.BrandId == brandId && predicate.Month == month)
             .DeleteAsync(cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+        .ConfigureAwait(false);
+
+        context.ChangeTracker.Clear();
     }
 
     public async ValueTask InsertBatchAsync(IEnumerable<BrandGameCreditProfitAdd> source, CancellationToken cancellationToken = default)
