@@ -9,6 +9,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Tgs.BrandGameCredits.Handler.Common;
 using Tgs.BrandGameCredits.Handler.Messages;
+using Tgs.GameWagers.Stat.Daily.Common;
 
 var filterInstrumentations = new[] { "html", "ico", "png", "jpg" };
 
@@ -64,7 +65,7 @@ builder.Services
     .AddMessageQueue()
     .AddNatsMessageQueue(config => config
     .ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-    .AddHandler<StatCloseMessageHandler>("game.gamewager.brand.stat.finish.publish", BrandGameCreditsHandlerNatsConst.StatClose)
+    .AddHandler<StatCloseMessageHandler>(GameWagersStatDailyNatsConst.StatDailyCloseFinish, typeof(StatCloseMessageHandler).FullName!.ToLower())
     .AddHandler<CreateMessageHandler>(BrandGameCreditsHandlerNatsConst.Create, BrandGameCreditsHandlerNatsConst.Create)
     .AddHandler<InitialMessageHandler>(BrandGameCreditsHandlerNatsConst.Initial, BrandGameCreditsHandlerNatsConst.Initial)
     .AddHandler<CreditMessageHandler>(BrandGameCreditsHandlerNatsConst.Credit, BrandGameCreditsHandlerNatsConst.Credit)
@@ -72,7 +73,7 @@ builder.Services
     .AddHandler<ProfitMessageHandler>(BrandGameCreditsHandlerNatsConst.Profit, BrandGameCreditsHandlerNatsConst.Profit)
     .AddHandler<SettlementMessageHandler>(BrandGameCreditsHandlerNatsConst.Settlement, BrandGameCreditsHandlerNatsConst.Settlement))
     .ClearAllExchanges()
-    .AddNatsGlobPatternExchange("game.gamewager.brand.stat.finish.publish")
+    .AddNatsGlobPatternExchange(GameWagersStatDailyNatsConst.StatDailyCloseFinish)
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Create)
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Initial)
     .AddNatsGlobPatternExchange(BrandGameCreditsHandlerNatsConst.Credit)

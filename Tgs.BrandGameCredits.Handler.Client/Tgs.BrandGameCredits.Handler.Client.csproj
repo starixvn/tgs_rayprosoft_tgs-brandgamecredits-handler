@@ -7,14 +7,15 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>0.0.4</Version>
+		<Version>1.0.0</Version>
 		<Authors>Raypro</Authors>
-		<RootNamespace>Tgs.BrandGameCredits.Handler.Client</RootNamespace>
-		<PackageId>Tgs.BrandGameCredits.Handler.Client</PackageId>
-		<Title>Tgs.BrandGameCredits.Handler.Client</Title>
 		<PackageProjectUrl>https://gitlab.com/rayprosoft/tgs-brandgamecredits-handler</PackageProjectUrl>
 		<RepositoryUrl>https://gitlab.com/rayprosoft/tgs-brandgamecredits-handler.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<RootNamespace>Tgs.BrandGameCredits.Handler.Client</RootNamespace>
+		<PackageId>Tgs.BrandGameCredits.Handler.Client</PackageId>
+		<Title>Tgs.BrandGameCredits.Handler.Client</Title>
+		<Description>Tgs.BrandGameCredits.Handler.Client</Description>
 		<PackageTags>Tgs BrandGameCredits Handler Client</PackageTags>
 	</PropertyGroup>
 

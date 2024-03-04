@@ -29,9 +29,9 @@ internal class PublishCommandService(
             command.Subject,
             publish);
 
-        return messageSender.PublishAsync<ReadOnlyMemory<byte>>(
+        return messageSender.PublishAsync(
             subject: command.Subject,
-            data: publish.ToByteArray(),
+            data: publish,
             cancellationToken: cancellationToken);
     }
 }

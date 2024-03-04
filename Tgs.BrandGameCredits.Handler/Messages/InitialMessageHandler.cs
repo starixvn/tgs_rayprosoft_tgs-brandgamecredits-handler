@@ -9,24 +9,24 @@ namespace Tgs.BrandGameCredits.Handler.Messages;
 
 public class InitialMessageHandler(
     ILogger<InitialMessageHandler> logger,
-    IHandlerDispatcher dispatcher) : IMessageHandler<ReadOnlyMemory<byte>>
+    IHandlerDispatcher dispatcher) : IMessageHandler<BrandGameCreditPublish>
 {
-    public ValueTask HandleAsync(string subject, ReadOnlyMemory<byte> data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
+    public ValueTask HandleAsync(string subject, BrandGameCreditPublish data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
     {
-        var publish = BrandGameCreditPublish.Parser.ParseFrom(data.Span)
-            ?? throw new NullReferenceException("The request data resolves to a null value");
-
-        logger.LogInformation("LogOn:{logOn} Information publish:{publish}", DateTime.Now.ToString("o"), publish);
+        logger.LogInformation("LogOn:{logOn} Subject:{subject} Message:This receiving message data info.({data})",
+            DateTime.Now.ToString("o"),
+            subject,
+            data);
 
         return dispatcher.PushCommandAsync(
             command: new DispatcherCommand(
-                ResellerId: publish.ResellerId.ToGuid(),
-                ResellerCode: publish.ResellerCode,
-                LicenseeId: publish.LicenseeId.ToGuid(),
-                LicenseeCode: publish.LicenseeCode,
-                BrandId: publish.BrandId.ToGuid(),
-                BrandCode: publish.BrandCode,
-                CurrentTime: publish.CurrentTime.ToDateTimeOffset(),
+                ResellerId: data.ResellerId.ToGuid(),
+                ResellerCode: data.ResellerCode,
+                LicenseeId: data.LicenseeId.ToGuid(),
+                LicenseeCode: data.LicenseeCode,
+                BrandId: data.BrandId.ToGuid(),
+                BrandCode: data.BrandCode,
+                CurrentTime: data.CurrentTime.ToDateTimeOffset(),
                 DispatcherType: DispatcherType.Initial),
             cancellationToken: cancellationToken);
     }

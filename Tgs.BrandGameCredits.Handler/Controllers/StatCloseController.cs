@@ -11,6 +11,10 @@ using Tgs.BrandGameCredits.Handler.ViewModels;
 using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Tgs.GameWagers.Stat.Daily.Common;
+using Tgs.GameWagers.Stat.Daily.Common.Protos;
+using System.Timers;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Tgs.BrandGameCredits.Handler.Controllers;
 
@@ -46,7 +50,12 @@ public class StatCloseController : ControllerBase
             .ConfigureAwait(false)
             ?? throw new NullReferenceException($"This brand does not exist.{source.BrandCode}");
 
-        var publish = new StatisticalFinishPublish
+        var currentTime = DateTimeOffset.UtcNow;
+        var utc8 = currentTime.ToOffset(TimeSpan.FromHours(+8));
+        var startOn = new DateTimeOffset(utc8.Year, utc8.Month, 1, 00, 00, 00, utc8.Offset);
+        var endOn = startOn.AddMonths(1);
+
+        var publish = new GameWagersStatDailyFinishMessage
         {
             ResellerId = info.ResellerId,
             ResellerCode = info.ResellerCode,
@@ -54,10 +63,12 @@ public class StatCloseController : ControllerBase
             LicenseeCode = info.LicenseeCode,
             BrandId = info.BrandId,
             BrandCode = info.BrandCode,
+            StartOn = startOn.ToTimestamp(),
+            EndOn = endOn.ToTimestamp()
         };
 
         await messageSender.PublishAsync(
-            subject: "game.gamewager.brand.stat.finish.publish",
+            subject: GameWagersStatDailyNatsConst.StatDailyCloseFinish,
             data: publish.ToByteArray(),
             cancellationToken: HttpContext.RequestAborted);
     }

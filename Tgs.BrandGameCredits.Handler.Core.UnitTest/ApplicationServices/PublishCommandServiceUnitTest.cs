@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
+using Tgs.BrandGameCredits.Handler.Common.Protos;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 using Valhalla.MessageQueue;
 
@@ -34,7 +36,16 @@ public class PublishCommandServiceUnitTest
             .Received(1)
             .PublishAsync(
             subject: Arg.Is(command.Subject),
-            data: Arg.Any<ReadOnlyMemory<byte>>(),
+            data: Arg.Is(new BrandGameCreditPublish
+            {
+                ResellerId = command.ResellerId,
+                ResellerCode = command.ResellerCode,
+                LicenseeId = command.LicenseeId,
+                LicenseeCode = command.LicenseeCode,
+                BrandId = command.BrandId,
+                BrandCode = command.BrandCode,
+                CurrentTime = command.CurrentTime.ToTimestamp()
+            }),
             cancellationToken: Arg.Any<CancellationToken>());
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Tgs.BrandGameCredits.Handler.Common;
+using Tgs.BrandGameCredits.Handler.Common.Protos;
 using Tgs.BrandGameCredits.Handler.Core.ApplicationServices;
 using Valhalla.MessageQueue;
 
@@ -32,7 +33,15 @@ public class UpdatePublishCommandServiceUnitTest
             .Received(1)
             .PublishAsync(
             subject: Arg.Is(BrandGameCreditsHandlerNatsConst.Update),
-            data: Arg.Any<ReadOnlyMemory<byte>>(),
+            data: Arg.Is(new BrandGameCreditUpdatePublish
+            {
+                ResellerId = command.ResellerId,
+                ResellerCode = command.ResellerCode,
+                LicenseeId = command.LicenseeId,
+                LicenseeCode = command.LicenseeCode,
+                BrandId = command.BrandId,
+                BrandCode = command.BrandCode
+            }),
             cancellationToken: Arg.Any<CancellationToken>());
     }
 }
