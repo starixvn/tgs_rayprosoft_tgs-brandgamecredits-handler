@@ -1,19 +1,19 @@
 ﻿using System.Data;
 using System.Runtime.CompilerServices;
 using Dapper;
-using Tgs.BrandGameCredits.Handler.Core.Models;
 using Tgs.BrandGameCredits.Handler.Core;
+using Tgs.BrandGameCredits.Handler.Core.Models;
 
 namespace Tgs.BrandGameCredits.Handler.Repositories;
 
 internal class BrandRepository(IDbConnection connection) : IBrandRepository
 {
-    public async ValueTask<BrandInfo?> GetAsync(string code, CancellationToken cancellationToken = default)
-    {
-        DynamicParameters parameters = new DynamicParameters();
-        parameters.Add("@code", code, DbType.String, ParameterDirection.Input);
+	public async ValueTask<BrandInfo?> GetAsync(string code, CancellationToken cancellationToken = default)
+	{
+		DynamicParameters parameters = new DynamicParameters();
+		parameters.Add("@code", code, DbType.String, ParameterDirection.Input);
 
-        var sqlQuery = @"
+		var sqlQuery = @"
         select
 	        r.id as ""reseller_id"",
 	        r.code as ""reseller_code"",
@@ -36,21 +36,19 @@ internal class BrandRepository(IDbConnection connection) : IBrandRepository
 	        and r.status != 2
 	        and b.code = @code;";
 
-        var command = new CommandDefinition(
-            commandText: sqlQuery,
-            cancellationToken: cancellationToken);
+		var command = new CommandDefinition(
+			commandText: sqlQuery,
+			cancellationToken: cancellationToken);
 
-        return await connection
-            .QuerySingleOrDefaultAsync<BrandInfo>(
-            command: command)
-            .ConfigureAwait(false);
-    }
+		return await connection
+			.QuerySingleOrDefaultAsync<BrandInfo>(
+			command: command)
+			.ConfigureAwait(false);
+	}
 
-    public async IAsyncEnumerable<BrandInfo> QueryAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
-    {
-        DynamicParameters parameters = new DynamicParameters();
-
-        var sqlQuery = @"
+	public async IAsyncEnumerable<BrandInfo> QueryAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+	{
+		var sqlQuery = @"
         select
 	        r.id as ""reseller_id"",
 	        r.code as ""reseller_code"",
@@ -71,24 +69,24 @@ internal class BrandRepository(IDbConnection connection) : IBrandRepository
 	        b.status != 2
 	        and l.status != 2
 	        and r.status != 2;"
-        ;
+		;
 
-        var command = new CommandDefinition(
-            commandText: sqlQuery,
-            cancellationToken: cancellationToken);
+		var command = new CommandDefinition(
+			commandText: sqlQuery,
+			cancellationToken: cancellationToken);
 
-        var infos = await connection.QueryAsync<BrandInfo>(
-            command: command)
-            .ConfigureAwait(false);
+		var infos = await connection.QueryAsync<BrandInfo>(
+			command: command)
+			.ConfigureAwait(false);
 
-        if (!infos.Any())
-        {
-            yield break;
-        }
+		if (!infos.Any())
+		{
+			yield break;
+		}
 
-        foreach (var info in infos)
-        {
-            yield return info;
-        }
-    }
+		foreach (var info in infos)
+		{
+			yield return info;
+		}
+	}
 }

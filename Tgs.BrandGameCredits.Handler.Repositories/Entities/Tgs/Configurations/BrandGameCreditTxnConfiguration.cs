@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
-using Tgs.BrandGameCredits.Handler.Repositories.Entities;
+using Tgs.BrandGameCredits.Handler.Entities;
 
 #nullable disable
 
-namespace Tgs.BrandGameCredits.Handler.Repositories.Entities.Configurations
+namespace Tgs.BrandGameCredits.Handler.Entities.Configurations
 {
     public partial class BrandGameCreditTxnConfiguration : IEntityTypeConfiguration<BrandGameCreditTxn>
     {

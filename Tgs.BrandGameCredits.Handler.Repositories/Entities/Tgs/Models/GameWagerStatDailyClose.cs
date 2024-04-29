@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tgs.BrandGameCredits.Handler.Repositories.Entities;
+namespace Tgs.BrandGameCredits.Handler.Entities;
 
 public partial class GameWagerStatDailyClose
 {

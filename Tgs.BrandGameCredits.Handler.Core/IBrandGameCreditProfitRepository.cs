@@ -4,7 +4,7 @@ namespace Tgs.BrandGameCredits.Handler.Core;
 
 public interface IBrandGameCreditProfitRepository
 {
-    ValueTask InsertBatchAsync(IEnumerable<BrandGameCreditProfitAdd> source, CancellationToken cancellationToken = default);
+	ValueTask InsertBatchAsync(IEnumerable<BrandGameCreditProfitAdd> source, CancellationToken cancellationToken = default);
 
-    ValueTask DeleteBatchAsync(Guid brandId, DateOnly month, CancellationToken cancellationToken = default);
+	ValueTask DeleteBatchAsync(Guid brandId, DateOnly month, CancellationToken cancellationToken = default);
 }

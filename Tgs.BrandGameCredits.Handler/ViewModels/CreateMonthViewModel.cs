@@ -4,8 +4,7 @@ namespace Tgs.BrandGameCredits.Handler.ViewModels;
 
 public class CreateMonthViewModel
 {
-    [DataType(DataType.DateTime)]
-    [Required]
-
-    public DateTimeOffset MonthTime { get; init; } = default!;
+	[DataType(DataType.DateTime)]
+	[Required]
+	public DateTimeOffset MonthTime { get; init; } = default!;
 }

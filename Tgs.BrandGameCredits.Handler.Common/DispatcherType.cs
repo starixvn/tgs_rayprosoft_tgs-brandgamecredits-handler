@@ -2,10 +2,10 @@
 
 public enum DispatcherType
 {
-    Create,
-    Initial,
-    Credit,
-    Debit,
-    Profit,
-    Settlement
+	Create,
+	Initial,
+	Credit,
+	Debit,
+	Profit,
+	Settlement
 }

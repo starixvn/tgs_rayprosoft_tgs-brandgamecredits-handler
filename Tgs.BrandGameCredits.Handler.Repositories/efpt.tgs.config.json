@@ -9,7 +9,7 @@
   "OutputContextPath": "Entities\/Tgs",
   "OutputPath": "Entities\/Tgs\/Models",
   "PreserveCasingWithRegex": true,
-  "ProjectRootNamespace": "Tgs.BrandGameCredits.Handler.Repositories",
+  "ProjectRootNamespace": "Tgs.BrandGameCredits.Handler",
   "Schemas": [
     {
       "Name": "dbo"

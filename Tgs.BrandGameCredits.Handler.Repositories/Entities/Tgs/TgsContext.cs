@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using Tgs.BrandGameCredits.Handler.Repositories.Entities.Configurations;
+using Tgs.BrandGameCredits.Handler.Entities.Configurations;
 #nullable enable
 
-namespace Tgs.BrandGameCredits.Handler.Repositories.Entities;
+namespace Tgs.BrandGameCredits.Handler.Entities;
 
 public partial class TgsContext : DbContext
 {

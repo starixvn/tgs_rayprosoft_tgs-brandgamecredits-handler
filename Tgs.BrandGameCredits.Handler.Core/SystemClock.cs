@@ -1,8 +1,6 @@
-﻿using Tgs.BrandGameCredits.Handler.Core;
-
-namespace Tgs.BrandGameCredits.Handler.Core;
+﻿namespace Tgs.BrandGameCredits.Handler.Core;
 
 internal class SystemClock : ISystemClock
 {
-    public DateTimeOffset CurrentTime => DateTimeOffset.UtcNow;
+	public DateTimeOffset CurrentTime => DateTimeOffset.UtcNow;
 }
