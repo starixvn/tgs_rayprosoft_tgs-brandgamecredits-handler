@@ -37,7 +37,7 @@ internal class BrandGameCreditProfitRepository(TgsContext context) : IBrandGameC
 				Commission = selector.Commission,
 				Turnover = selector.Turnover,
 				WinLoss = selector.WinLoss,
-				ProfitAmount = (selector.WinLoss > 0) ? 0 : selector.WinLoss * -1
+				ProfitAmount = selector.ProfitAmount,
 			});
 
 		await context.BrandGameCreditProfits.AddRangeAsync(
