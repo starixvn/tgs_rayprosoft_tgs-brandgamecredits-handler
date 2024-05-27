@@ -10,4 +10,5 @@ public record BrandGameCreditProfitAdd(
 	decimal Settle,
 	decimal Commission,
 	decimal Turnover,
-	decimal WinLoss);
+	decimal WinLoss,
+	decimal ProfitAmount);
